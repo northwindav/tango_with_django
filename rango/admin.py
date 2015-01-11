@@ -1,5 +1,6 @@
 from django.contrib import admin
 from rango.models import Category, Page
+from rango.models import UserProfile
 
 # This will pre-populate the slug field whenever we add a new category via the admin interface. Neat
 class CategoryAdmin(admin.ModelAdmin):
@@ -11,4 +12,5 @@ class PageAdmin(admin.ModelAdmin):
 # Register your models here.
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Page, PageAdmin)
+admin.site.register(UserProfile)
 

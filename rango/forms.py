@@ -2,7 +2,24 @@
 # forms separate keeps things a lot cleaner
 
 from django import forms
-from rango.models import Page, Category
+from django.contrib.auth.models import User
+from rango.models import Page, Category, UserProfile
+
+class UserForm(forms.ModelForm):
+	# This forces the form to hide the user's input into this field
+	password = forms.CharField(widget=forms.PasswordInput())
+	
+	# recall Meta classes specify additional properties
+	# about the particular modelForm class. At minimum it requires a model=
+	# As of Django 1.7 either fields or exlcude are also required
+	class Meta:
+		model = User
+		fields = ('username', 'email', 'password')
+
+class UserProfileForm(forms.ModelForm):
+	class Meta:
+		model = UserProfile
+		fields = ('website', 'picture')
 
 # We have to make sure that the form will provide values for all fields required by the model:
 # One way to do this is use widget=forms.HiddenInput, initial=0. This will provide a value
