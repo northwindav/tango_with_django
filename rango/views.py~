@@ -19,7 +19,6 @@ def restricted(request):
 #	return HttpResponse("Since you're logged in, you can see this text!")
 	return render(request, 'rango/restricted.html', {})
 
-# login, logout and register views deprecated due to the use of django_authorization_redux app
 #@login_required
 #def user_logout(request):
 #	logout(request) #since we know they're logged in if they can see this
