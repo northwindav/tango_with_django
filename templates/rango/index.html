@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!DOCTYPE html>
 <html>
     <head>
@@ -48,42 +47,3 @@
 	<a href="/rango/add_category/">Add a New Category</a><br />
     </body>
 </html>
-||||||| merged common ancestors
-=======
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Rango</title>
-    </head>
-
-    <body>
-        <h1>Rango says...hello world!</h1>
-
-       	<!--If categories is passed when the template is called, they will be displayed here -->
-	 {% if categories %}
-            <ul>
-                {% for category in categories %}
-                <li><a href="/rango/category/{{ category.slug }}">{{ category.name }}</a></li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <strong>There are no categories present.</strong>
-        {% endif %}
-
-	<!-- If pages is passed, then display the top 5 pages -->
-	{% if pages %}
-		<strong>Top 5 most viewed pages</strong>
-		<ol>
-		  {% for page in pages %}
-		  <!-- <li>{{ page.title }}</li> -->
-		  <li><a href="{{ page.url }}">{{ page.title }}</a></li>
-		  {% endfor %}
-		</ol>
-	{% else %}
-	  	<strong>There are no top viewed pages.</strong>
-	{% endif %}
-
-        <a href="/rango/about/">About</a>
-    </body>
-</html>
->>>>>>> 0153ebd52afe538da6d58d03fab3c967ff9aedde

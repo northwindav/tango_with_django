@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 """
 Django settings for tango_with_django_project project.
 
@@ -108,8 +107,6 @@ STATICFILES_DIRS = (
 )
 
 MEDIA_URL = '/media/'
-||||||| merged common ancestors
-=======
 """
 Django settings for tango_with_django_project project.
 
@@ -209,4 +206,3 @@ STATICFILES_DIRS = (
 )
 
 MEDIA_URL = '/media/'
->>>>>>> 0153ebd52afe538da6d58d03fab3c967ff9aedde
