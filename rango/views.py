@@ -2,11 +2,16 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
+from datetime import datetime
 from rango.models import Category
 from rango.models import Page
 from rango.forms import CategoryForm
 from rango.forms import PageForm
 from rango.forms import UserForm, UserProfileForm
+
+# Very important review:
+# For any data to be available to the template, and be called via {{ <varname> }}
+# they have to be a part of the dictionary passed using the render(request, <template>, <dictionary>) string
 
 # This is a decorator, which is placed directly above the function signature
 @login_required
@@ -52,6 +57,9 @@ def user_login(request):
 # Note that there are many out-of-the-box user registration modules, but
 # this is a good example of how things work
 def register(request):
+#	if request.session.test_cookie_worked(): # For testing whether cookies can be set. See also the first line in the index view
+#		print ">>>> TEST COOKIE WORKIED!"
+#		request.session.delete_test_cookie()
 	# A boolean value for telling the template whether the registration was successful
 	# Set to False initially, code changes to true if success
 	registered = False
@@ -194,25 +202,45 @@ def category(request, category_name_slug):
 	return render(request, 'rango/category.html', context_dict)
 
 def index(request):
+#	request.session.set_test_cookie() # for testing if cookies can be set
 	# Construct a category list that queries the Category model
 	# and retrives the sorted top 5 results ordered by likes
 	# Pass a reference to theordered list to the dictionary, which is 
 	# then passed to the template engine with the render() call
 	category_list = Category.objects.order_by('-likes')[:5]
-	context_dict = {'categories': category_list}
-
-	# Construct a list of the top 5 viewed pages
 	page_list = Page.objects.order_by('-views')[:5]
-	context_dict['pages']= page_list
-	
-	# REturn a rendered response to send to the client
-	# We make use of the shortcut function to make our lives easier
-	# Note that the second parameter is the template that we wish to use
-	return render(request, 'rango/index.html', context_dict)
+	context_dict = {'categories': category_list, 'pages': page_list}
 
-	# This is the older response without a template
-	# return HttpResponse("Rango says hey there world! <br> <a href='/rango/about'>About</a>")
+	# Implement session-side methods to count visits. In this case the only
+	# cookie that needs to be set on the client is a sessionid
+	visits = request.session.get('visits')
+	if not visits:
+		visits = 1
+	reset_last_visit_time = False
+
+	last_visit = request.session.get('last_visit')
+	if last_visit:
+		last_visit_time = datetime.strptime(last_visit[:-7], "%Y-%m-%d %H:%M:%S")
+		if (datetime.now() - last_visit_time).seconds > 0:
+			visits = visits + 1
+			reset_last_visit_time = True
+	else:
+		reset_last_visit_time = True
+
+	if reset_last_visit_time:
+		request.session['last_visit'] = str(datetime.now())
+		request.session['visits'] = visits
+
+	context_dict['visits'] = visits
+
+	response = render(request, 'rango/index.html', context_dict)
+	return response
 
 def about(request):
-	context_dict = {'boldmessage': "I am a bold font for the about page"}
+	if request.session.get('visits'):
+		count = request.session.get('visits')
+	else:
+		count = 0
+	
+	context_dict = {'visits':count}
 	return render(request, 'rango/about.html', context_dict)

@@ -36,6 +36,14 @@ TEMPLATE_DIRS = [
 # This needsto be set if DEBUG = FALSE
 ALLOWED_HOSTS = []
 
+# Cookies: ** note that session cookies should be cleared regularly from the db.
+# This can be done by running pythond manage.py clearsessions as a daily cron job
+# Can set this to true if we want cookies to expire when the browser closes
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+# This sets the lifetime of the cookie, in seconds
+SESSION_COOKIE_AGE = 120
+
+
 # Application definition
 
 INSTALLED_APPS = (
