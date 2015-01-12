@@ -11,7 +11,8 @@ from rango.forms import UserForm, UserProfileForm
 # This is a decorator, which is placed directly above the function signature
 @login_required
 def restricted(request):
-	return HttpResponse("Since you're logged in, you can see this text!")
+#	return HttpResponse("Since you're logged in, you can see this text!")
+	return render(request, 'rango/restricted.html', {})
 
 @login_required
 def user_logout(request):

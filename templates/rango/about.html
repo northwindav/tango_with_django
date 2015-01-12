@@ -1,16 +1,13 @@
-<!DOCTYPE html>
-{% load staticfiles %} <! -- tells django to load the static template. Should be used any time static media (images, css, js) are used in a template -->
-<html>
+{% extends 'base.html' %}
 
-    <head>
-        <title>About Rango</title>
-    </head>
+{% load staticfiles %}
 
-    <body>
-        <h1>This is the aboot page</h1>
+{% block title %}{{ category_name }}{% endblock %}
+
+{% block body_block %}
+	<h1>This is the aboot page</h1>
         hello world! <strong>{{ boldmessage }}</strong><br />
-        <a href="/rango/">Rango</a><br />
-	<img src="{% static "images/rango.jpg" %}" alt="Picture of Rango" /> 
-    </body>
+        <img src="{% static "images/rango.jpg" %}" alt="Picture of Rango" />
 
-</html>
+{% endblock %}
+

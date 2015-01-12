@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+
+<html>
+    <head lang="en">
+	<meta charset="UTF-8">
+        <title>Rango - {% block title %}How to Tango with Django{% endblock %}</title>
+    </head>
+
+    <body>
+	<div>
+		<! --The line below allows us to insert a block from elsewhere -->
+		{% block body_block %}This is the default content if nothing is inserted{% endblock %}
+	</div>
+	
+	<hr />
+	<div>
+		<ul>
+		{% if user.is_authenticated %}
+			<!--Take advantage of django command url, which referes to named urls in rango/urls.py. This avoid having to edit multiple files if urls change -->
+			<li><a href="{% url 'restricted' %}">Restricted Page</a></li>
+              		<li><a href="{% url 'logout' %}">Logout</a></li>
+                	<li><a href="{% url 'add_category' %}">Add a New Category</a></li>
+            	{% else %}
+                	<li><a href="{% url 'register' %}">Register Here</a></li>
+                	<li><a href="{% url 'login' %}">Login</a></li>
+            	{% endif %}
+                <li><a href="{% url 'about' %}">About</a></li>
+		<li><a href="{% url 'index' %}">Home</a></li>
+            	</ul>
+	</div>
+	</body>
+</html>

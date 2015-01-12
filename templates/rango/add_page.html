@@ -1,16 +1,18 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Rango</title>
-    </head>
+{% extends 'base.html' %}
 
-    <body>
-       <h1>Add a Page to {{ category }}</h1>
-       <!-- All data from this form will be sent to the add_category view as a POST request -->
-        <form id="page_form" method="post" action="/rango/add_page/">
+{% load staticfiles %}
+
+{% block title %}Add a Page{% endblock %}
+
+{% block body_block %}
+
+	 <h1>Add a Page to {{ category }}</h1>
+
+	<!-- All data from this form will be sent to the add_category view as a POST request -->
+        <form id="page_form" method="post" action="{% url 'add_page' category %}">
             <!-- Cross-site request forgery token: required by Django and helps secure the POST action -->
             {% csrf_token %}
-	   <!-- The hidden fields still need to be included on the page so that something is submitted to add_category -->
+           <!-- The hidden fields still need to be included on the page so that something is submitted to add_category -->
             {% for hidden in form.hidden_fields %}
                 {{ hidden }}
             {% endfor %}
@@ -23,6 +25,6 @@
 
             <input type="submit" name="submit" value="Create Page" />
         </form>
-    </body>
 
-</html>
+{% endblock %}
+

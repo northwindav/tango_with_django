@@ -1,49 +1,41 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Rango</title>
-    </head>
+{% extends 'base.html' %}
 
-    <body>
+{% load staticfiles %}
+
+{% block title %}{% endblock %}
+
+{% block body_block %}
+
 	{% if user.is_authenticated %}
-	  <h1>Rango says... Hello {{ user.username }}!</h1>
-	{% else %}
-	  <h1>Rango says... Hello Stranger!</h1>
-	{% endif %}
+          <h1>Rango says... Hello {{ user.username }}!</h1>
+        {% else %}
+          <h1>Rango says... Hello Stranger!</h1>
+        {% endif %}
 
-       	<!--If categories is passed when the template is called, they will be displayed here -->
-	 {% if categories %}
+	
+	 <!--If categories is passed when the template is called, they will be displayed here -->
+         {% if categories %}
             <ul>
                 {% for category in categories %}
-                <li><a href="/rango/category/{{ category.slug }}">{{ category.name }}</a></li>
+                <li><a href="{% url 'category' category.slug %}">{{ category.name }}</a></li>
                 {% endfor %}
             </ul>
         {% else %}
             <strong>There are no categories present.</strong>
         {% endif %}
 
-	<!-- If pages is passed, then display the top 5 pages -->
-	{% if pages %}
-		<strong>Top 5 most viewed pages</strong>
-		<ol>
-		  {% for page in pages %}
-		  <!-- <li>{{ page.title }}</li> -->
-		  <li><a href="{{ page.url }}">{{ page.title }}</a></li>
-		  {% endfor %}
-		</ol>
-	{% else %}
-	  	<strong>There are no top viewed pages.</strong>
-	{% endif %}
+        <!-- If pages is passed, then display the top 5 pages -->
+        {% if pages %}
+                <strong>Top 5 most viewed pages</strong>
+                <ol>
+                  {% for page in pages %}
+                  <!-- <li>{{ page.title }}</li> -->
+                  <li><a href="{{ page.url }}">{{ page.title }}</a></li>
+                  {% endfor %}
+                </ol>
+        {% else %}
+                <strong>There are no top viewed pages.</strong>
+        {% endif %}
 
-	{% if user.is_authenticated %}
-	  <a href="/rango/restricted/">Restricted Page</a><br />
-	  <a href="/rango/logout/">Logout</a><br />
-	{% else %}
-	  <a href="/rango/register/">Register Here</a><br />
-	  <a href="/rango/login/">Login</a><br />
-	{% endif %}
+{% endblock %}
 
-	<a href="/rango/about/">About</a><br/>
-	<a href="/rango/add_category/">Add a New Category</a><br />
-    </body>
-</html>
